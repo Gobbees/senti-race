@@ -26,7 +26,7 @@ yarn install
 
 4. **IMPORTANT** Fill the `.env` file (and Gcloud credentials if you want to use GCP). <br /> See `.env.sample` for instrutions.
 
-5. Fill your `input.json` file <br> **IMPORTANT**: it must contain a valid language code (`en`, `it`, `de`) as `"language"`and a list of input strings as `"sentences"`.
+5. Fill your `input.json` file <br> **IMPORTANT**: it must contain a valid language code (`en`, `it`, `de`) as `"language"` and a list of input strings as `"sentences"`.
 
 6. (Optional) If you prefer to use `node` instead of `ts-node`, run
 
