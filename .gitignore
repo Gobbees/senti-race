@@ -1,0 +1,9 @@
+.vscode/
+
+node_modules/
+dist/
+
+.env
+
+gcloud-credentials.json
+result.json
