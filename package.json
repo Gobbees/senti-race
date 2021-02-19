@@ -2,20 +2,18 @@
   "name": "senti-race",
   "version": "1.0.0",
   "description": "Tool to test top Sentiment Analysis Cloud Providers accuracy",
-  "main": "dist/index.js",
   "author": "Giovanni Gobbi",
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start:ts-node": "ts-node index.ts",
-    "start": "node dist/index.js",
-    "build": "rimraf ./dist && copyfiles input.json ./dist && copyfiles .env ./dist && copyfiles gcloud-credentials.json ./dist && tsc"
+    "start": "ts-node index.ts"
   },
   "dependencies": {
     "@azure/ai-text-analytics": "^5.0.1",
     "@google-cloud/language": "^4.2.1",
     "aws-sdk": "^2.831.0",
     "chalk": "^4.1.0",
+    "handlebars": "^4.7.7",
     "ibm-watson": "^6.0.2",
     "ora": "^5.3.0"
   },

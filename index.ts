@@ -2,6 +2,8 @@ import Comprehend from "aws-sdk/clients/comprehend";
 import {
   TextAnalyticsClient,
   AzureKeyCredential,
+  AnalyzeSentimentResultArray,
+  AnalyzeSentimentSuccessResult,
 } from "@azure/ai-text-analytics";
 import language from "@google-cloud/language";
 import NaturalLanguageUnderstandingV1 from "ibm-watson/natural-language-understanding/v1";
@@ -9,6 +11,7 @@ import { IamAuthenticator } from "ibm-watson/auth";
 import chalk from "chalk";
 import ora from "ora";
 import fs from "fs";
+import Handlebars from "handlebars";
 
 require("dotenv").config();
 
@@ -32,10 +35,10 @@ const main = async () => {
     );
     return;
   }
-  let awsResult;
-  let azureResult;
-  let gcpResult;
-  let ibmResult;
+  let awsResult: any = {};
+  let azureResult: any = {};
+  let gcpResult: any = {};
+  let ibmResult: any = {};
 
   // Amazon Comprehend
   console.log(chalk.keyword("orange")("Amazon Comprehend"));
@@ -170,6 +173,12 @@ const main = async () => {
   }
 
   // Write file
+  const template = Handlebars.compile(
+    fs.readFileSync("./template.hbs").toString()
+  );
+  if (fs.existsSync("./result.html")) {
+    fs.unlinkSync("./result.html");
+  }
   if (fs.existsSync("./result.json")) {
     fs.unlinkSync("./result.json");
   }
@@ -186,6 +195,18 @@ const main = async () => {
       null,
       2
     )
+  );
+  fs.writeFileSync(
+    "./result.html",
+    template({
+      result: data.sentences.map((sentence, index) => ({
+        sentence,
+        awsScore: awsResult[index].Sentiment,
+        azureScore: azureResult[index].sentiment,
+        ibmScore: ibmResult[index].sentiment.document.label,
+        gcpScore: gcpResult[index].documentSentiment.score,
+      })),
+    })
   );
   spinner.succeed("Done");
 };
